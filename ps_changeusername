@@ -1,4 +1,7 @@
-﻿Import-Module ActiveDirectory
+#Author: William P Acosta
+#Description: Use this script to change a user's Display name and primary smtp address in Active Directory.
+
+Import-Module ActiveDirectory
 
 #Input Network account and new name
 #This renames the the proper AD fields
@@ -27,16 +30,16 @@ If ($Oldprimary) {
 Write-Host "Primary SMTP exists. Modifying"
 Set-ADUser -Identity $alias -remove @{ProxyAddresses="$Oldprimary"}
 Set-ADUser -Identity $alias -Add @{ProxyAddresses="smtp:$Oldemail"}
-Set-ADUser -Identity $alias -remove @{ProxyAddresses="smtp:$First.$Last@badcock.com"}
-Set-ADUser -Identity $alias -Add @{Proxyaddresses="SMTP:$First.$Last@badcock.com"}
-Set-ADUser -Identity $alias -Add @{Proxyaddresses="smtp:$First.$Last@badcock.mail.onmicrosoft.com"}
-Set-ADUser $alias -EmailAddress "$First.$Last@badcock.com"
+Set-ADUser -Identity $alias -remove @{ProxyAddresses="smtp:$First.$Last@domain.com"}
+Set-ADUser -Identity $alias -Add @{Proxyaddresses="SMTP:$First.$Last@domain.com"}
+Set-ADUser -Identity $alias -Add @{Proxyaddresses="smtp:$First.$Last@domain.mail.onmicrosoft.com"}
+Set-ADUser $alias -EmailAddress "$First.$Last@domain.com"
 }
 Else {
 Write-Host "Primary SMTP does NOT exist. Modifying"
 Set-ADUser -Identity $alias -Add @{ProxyAddresses="smtp:$Oldemail"}
-Set-ADUser -Identity $alias -Add @{Proxyaddresses="SMTP:$First.$Last@badcock.com"}
-Set-ADUser -Identity $alias -Add @{Proxyaddresses="smtp:$First.$Last@badcock.mail.onmicrosoft.com"}
-Set-ADUser $alias -EmailAddress "$First.$Last@badcock.com"
+Set-ADUser -Identity $alias -Add @{Proxyaddresses="SMTP:$First.$Last@domain.com"}
+Set-ADUser -Identity $alias -Add @{Proxyaddresses="smtp:$First.$Last@domain.mail.onmicrosoft.com"}
+Set-ADUser $alias -EmailAddress "$First.$Last@domain.com"
 }
 Write-Host "Complete"
